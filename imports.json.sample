@@ -1,0 +1,24 @@
+{
+  "imports": [
+    {
+      "class": "Car\\Audi",
+      "uses": [
+        {
+          "use": "Car\\Tesla",
+          "as": "ElonMotors"
+        },
+        {
+          "use": "Truck\\Toyota\\Tacoma"
+        }
+      ]
+    },
+    {
+      "class": "Truck\\Toyota",
+      "uses": [
+        {
+          "use": "SUV\\Jeep\\Wrangler"
+        }
+      ]
+    }
+  ]
+}
