@@ -1,5 +1,5 @@
 {
-  "name": "nickolasburr/importly",
+  "name": "nickolasburr/ezimports",
   "description": "Register PHP imports at runtime.",
   "version": "1.0.0",
   "license": "MIT",
