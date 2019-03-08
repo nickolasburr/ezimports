@@ -35,57 +35,59 @@ function get_class_imports($class) {
     return [];
 }
 
-/**
- * Register PHP imports at runtime.
- *
- * @param string|null $class
- * @return void
- */
-function include_imports(string $class = null) {
-    /** @var array $imports */
-    $imports = get_class_imports($class);
+if (!function_exists('include_imports')) {
+    /**
+     * Register PHP imports at runtime.
+     *
+     * @param string|null $class
+     * @return void
+     */
+    function include_imports(string $class = null) {
+        /** @var array $imports */
+        $imports = get_class_imports($class);
 
-    /** @var ReflectionClass $context */
-    $context = new \ReflectionClass($class);
+        /** @var ReflectionClass $context */
+        $context = new \ReflectionClass($class);
 
-    foreach ($imports as $import) {
-        /** @var string $use */
-        $use = $import['use'] ?? null;
+        foreach ($imports as $import) {
+            /** @var string $use */
+            $use = $import['use'] ?? null;
 
-        if ($use === null) {
-            throw new \Exception('No import path was specified.');
-        }
+            if ($use === null) {
+                throw new \Exception('No import path was specified.');
+            }
 
-        /** @var ReflectionClass $entity */
-        $entity = new \ReflectionClass($use);
+            /** @var ReflectionClass $entity */
+            $entity = new \ReflectionClass($use);
 
-        /** @var string $source The source class the alias references. */
-        $source = $entity->getName();
+            /** @var string $source The source class the alias references. */
+            $source = $entity->getName();
 
-        /** @var string $alias */
-        $alias = $import['as'] ?? null;
+            /** @var string $alias */
+            $alias = $import['as'] ?? null;
 
-        /**
-         * If an alias was explicitly set,
-         * use it instead of short name.
-         */
-        if ($alias !== null) {
             /**
-             * An alias only has context inside the scope
-             * of the file where it was included. As such,
-             * it should only contain a short name without
-             * the preceding namespace.
+             * If an alias was explicitly set,
+             * use it instead of short name.
              */
-            $alias = '\\' . trim($alias, '\\');
-            $alias = substr($alias, strrpos($alias, '\\') + 1);
-            $alias = $context->getNamespaceName() . '\\' . $alias;
-        } else {
-            /** @var string $alias The alias (target) for the source class. */
-            $alias = $context->getNamespaceName() . '\\' . $entity->getShortName();
-        }
+            if ($alias !== null) {
+                /**
+                 * An alias only has context inside the scope
+                 * of the file where it was included. As such,
+                 * it should only contain a short name without
+                 * the preceding namespace.
+                 */
+                $alias = '\\' . trim($alias, '\\');
+                $alias = substr($alias, strrpos($alias, '\\') + 1);
+                $alias = $context->getNamespaceName() . '\\' . $alias;
+            } else {
+                /** @var string $alias The alias (target) for the source class. */
+                $alias = $context->getNamespaceName() . '\\' . $entity->getShortName();
+            }
 
-        if (!class_exists($alias)) {
-            class_alias($source, $alias);
+            if (!class_exists($alias)) {
+                class_alias($source, $alias);
+            }
         }
     }
 }
