@@ -13,8 +13,6 @@
     "php": ">=7.1"
   },
   "autoload": {
-    "files": [
-      "src/functions.php"
-    ]
+    "files": ["functions.php"]
   }
 }
