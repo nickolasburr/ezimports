@@ -1,30 +1,33 @@
 <?php
 /**
- * Get array of import objects from imports.json.
- *
- * @return object[]
+ * functions.php
  */
-function get_imports($file = 'imports.json') {
-    if (file_exists($file)) {
-        $content = file_get_contents($file);
-        $objects = json_decode($content, true);
-
-        if (isset($objects['imports'])) {
-            return $objects['imports'];
-        }
-    }
-
-    return [];
-}
+use NickolasBurr\EzImports\Config;
 
 /**
- * Get array of imports for specific class.
+ * Get array of imports for specific package class.
+ *
+ * @param string $package
+ * @param string $class
+ * @return array
  */
-function get_class_imports($class) {
-    $imports = get_imports();
+function get_ezimports($package, $class) {
+    /** @var string $filePath */
+    $filePath = Config::getImportsFilePath($package);
 
-    /* Remove preceding backslashes from class. */
-    $class = trim($class, '\\');
+    if (!file_exists($filePath)) {
+        return [];
+    }
+
+    $content = file_get_contents($filePath);
+    $objects = json_decode($content, true);
+
+    if (!isset($objects['imports'])) {
+        return [];
+    }
+
+    /** @var object[] $imports */
+    $imports = $objects['imports'];
 
     foreach ($imports as $import) {
         if (isset($import['class']) && $class === $import['class']) {
@@ -39,12 +42,19 @@ if (!function_exists('include_imports')) {
     /**
      * Register PHP imports at runtime.
      *
-     * @param string|null $class
+     * @param string $package The module name in 'vendor/package' format.
+     * @param string $class
      * @return void
      */
-    function include_imports(string $class = null) {
+    function include_imports($package, $class) {
+        /* Trim any leading/trailing slashes from package. */
+        $package = trim($package, '/');
+
+        /* Trim any leading/trailing backslashes from class. */
+        $class = trim($class, '\\');
+
         /** @var array $imports */
-        $imports = get_class_imports($class);
+        $imports = get_ezimports($package, $class);
 
         /** @var ReflectionClass $context */
         $context = new \ReflectionClass($class);
