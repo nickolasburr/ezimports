@@ -26,14 +26,14 @@ class Name implements WordInterface
 }
 ```
 
-Invoke `include_imports` with the respective FQCN:
+Invoke `include_imports` with the package name and FQCN:
 
 ```php
 <?php
 
 namespace Example;
 
-\include_imports(Name::class);
+\include_imports('vendor/package', Name::class);
 
 class Name implements WordInterface
 {
