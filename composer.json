@@ -13,6 +13,9 @@
     "php": ">=7.1"
   },
   "autoload": {
-    "files": ["functions.php"]
+    "files": ["functions.php"],
+    "psr-4": {
+      "NickolasBurr\\EzImports\\": "src/"
+    }
   }
 }
