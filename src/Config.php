@@ -13,10 +13,52 @@ class Config
      */
     public static function getEzImportsModulePath()
     {
-        /** @var string $modulePath */
-        $modulePath = dirname(__DIR__);
+        return defined('EZIMPORTS_MODULE_PATH') ? EZIMPORTS_MODULE_PATH : dirname(__DIR__);
+    }
 
-        return defined('EZIMPORTS_MODULE_PATH') ? EZIMPORTS_MODULE_PATH : $modulePath;
+    /**
+     * Get absolute path to vendor directory
+     * where ezimports module is installed.
+     *
+     * @return string
+     */
+    public static function getEzImportsVendorPath()
+    {
+        return defined('EZIMPORTS_VENDOR_PATH') ? EZIMPORTS_VENDOR_PATH : dirname(self::getEzImportsModulePath());
+    }
+
+    /**
+     * Get array of imports for specific package class.
+     *
+     * @param string $package
+     * @param string $class
+     * @return array
+     * @todo: Return bool/null instead of empty array, which can be misleading.
+     */
+    public static function getClassImports($package, $class)
+    {
+        /** @var string $filePath */
+        $filePath = self::getImportsFilePath($package);
+
+        if (!file_exists($filePath)) {
+            return [];
+        }
+
+        $content = file_get_contents($filePath);
+        $objects = json_decode($content, true);
+        $imports = $objects['imports'] ?? null;
+
+        if ($imports === null) {
+            return [];
+        }
+
+        foreach ($imports as $import) {
+            if (isset($import['class']) && $class === $import['class']) {
+                return $import['uses'] ?? false;
+            }
+        }
+
+        return [];
     }
 
     /**
@@ -24,7 +66,7 @@ class Config
      * of the module utilizing ezimports.
      *
      * @param string $package
-     * @return string|null
+     * @return string
      */
     public static function getImportsFilePath($package)
     {
@@ -46,6 +88,6 @@ class Config
      */
     public static function getModulePath($package)
     {
-        return dirname(dirname(self::getEzImportsModulePath())) . DIRECTORY_SEPARATOR . $package;
+        return dirname(self::getEzImportsVendorPath()) . DIRECTORY_SEPARATOR . $package;
     }
 }

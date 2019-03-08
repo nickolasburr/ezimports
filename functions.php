@@ -4,40 +4,6 @@
  */
 use NickolasBurr\EzImports\Config;
 
-/**
- * Get array of imports for specific package class.
- *
- * @param string $package
- * @param string $class
- * @return array
- */
-function get_ezimports($package, $class) {
-    /** @var string $filePath */
-    $filePath = Config::getImportsFilePath($package);
-
-    if (!file_exists($filePath)) {
-        return [];
-    }
-
-    $content = file_get_contents($filePath);
-    $objects = json_decode($content, true);
-
-    if (!isset($objects['imports'])) {
-        return [];
-    }
-
-    /** @var object[] $imports */
-    $imports = $objects['imports'];
-
-    foreach ($imports as $import) {
-        if (isset($import['class']) && $class === $import['class']) {
-            return $import['uses'];
-        }
-    }
-
-    return [];
-}
-
 if (!function_exists('include_imports')) {
     /**
      * Register PHP imports at runtime.
@@ -54,7 +20,7 @@ if (!function_exists('include_imports')) {
         $class = trim($class, '\\');
 
         /** @var array $imports */
-        $imports = get_ezimports($package, $class);
+        $imports = Config::getClassImports($package, $class);
 
         /** @var ReflectionClass $context */
         $context = new \ReflectionClass($class);
