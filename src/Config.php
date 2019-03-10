@@ -6,8 +6,17 @@ namespace NickolasBurr\EzImports;
 
 class Config
 {
+    /** @constant EZIMPORTS_FILE_BASENAME_AFFIX */
+    const EZIMPORTS_FILE_BASENAME_AFFIX = '_EZIMPORTS_FILE_BASENAME';
+
+    /** @constant EZIMPORTS_FILE_PATH_AFFIX */
+    const EZIMPORTS_FILE_PATH_AFFIX = '_EZIMPORTS_FILE_PATH';
+
     /**
      * Get absolute path to ezimports module.
+     * EZIMPORTS_MODULE_PATH should only be
+     * defined at the project level, not at
+     * the module level.
      *
      * @return string
      */
@@ -70,21 +79,34 @@ class Config
      */
     public static function getImportsFilePath($package)
     {
+        /** @var string $prefix */
+        $prefix = str_replace('-', '', $package);
+        $prefix = str_replace('/', '_', $prefix);
+        $prefix = strtoupper($prefix);
+
+        /** @var string $fileNameConstKey */
+        $fileNameConstKey = $prefix . self::EZIMPORTS_FILE_BASENAME_AFFIX;
+
         /** @var string $fileName The imports file basename, which defaults to imports.json. */
-        $fileName = defined('EZIMPORTS_FILE_BASENAME') ? EZIMPORTS_FILE_BASENAME : 'imports.json';
+        $fileName = defined($fileNameConstKey) ? constant($fileNameConstKey) : 'imports.json';
+
+        /** @var string $filePathConstKey */
+        $filePathConstKey = $prefix . self::EZIMPORTS_FILE_PATH_AFFIX;
 
         /** @var string $filePath */
-        $filePath = self::getModulePath($package) . DIRECTORY_SEPARATOR . $fileName;
+        $filePath = defined($filePathConstKey)
+            ? constant($filePathConstKey) : self::getModulePath($package) . DIRECTORY_SEPARATOR . $fileName;
 
-        return defined('EZIMPORTS_FILE_PATH') ? EZIMPORTS_FILE_PATH : $filePath;
+        return $filePath;
     }
 
     /**
      * Get absolute path to the module utilizing ezimports.
      *
      * @param string $package
-     * @return string|bool
-     * @todo: str_replace 'vendor/package' with DIRECTORY_SEPARATOR for compatibility.
+     * @return string
+     * @todo: If applicable, replace '/' in $package for
+     *        Windows compatibility.
      */
     public static function getModulePath($package)
     {
