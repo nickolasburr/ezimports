@@ -33,25 +33,11 @@ if (!function_exists('include_imports')) {
                 throw new \Exception('No import path was specified.');
             }
 
-            /** @var string $alias */
-            $alias = $import['as'] ?? null;
+            /** @var string $short */
+            $short = Config::getShortNameFromFqcn($import['as'] ?? $use);
 
-            /**
-             * If an alias was explicitly set,
-             * use it instead of short name.
-             */
-            if ($alias !== null) {
-                /**
-                 * An alias only has context inside the scope
-                 * of the file where it was included. As such,
-                 * it should only contain a short name without
-                 * the preceding namespace.
-                 */
-                $alias = $namespace . '\\' . Config::getShortNameFromFqcn($alias);
-            } else {
-                /** @var string $alias The alias (target) for the source class. */
-                $alias = $namespace . '\\' . Config::getShortNameFromFqcn($use);
-            }
+            /** @var string $alias */
+            $alias = $namespace . '\\' . $short;
 
             if (!class_exists($alias)) {
                 class_alias($use, $alias);
