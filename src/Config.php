@@ -90,4 +90,36 @@ class Config
     {
         return dirname(self::getEzImportsVendorPath()) . DIRECTORY_SEPARATOR . $package;
     }
+
+    /**
+     * Get namespace from FQCN.
+     *
+     * @param string|null $class
+     * @return string
+     */
+    public static function getNamespaceFromFqcn($class = null)
+    {
+        if ($class === null) {
+            throw new \Exception('Invalid class name was given.');
+        }
+
+        $class = '\\' . trim($class, '\\');
+        return substr($class, 0, strrpos($class, '\\'));
+    }
+
+    /**
+     * Get short name from FQCN.
+     *
+     * @param string|null $class
+     * @return string
+     */
+    public static function getShortNameFromFqcn($class = null)
+    {
+        if ($class === null) {
+            throw new \Exception('Invalid class name was given.');
+        }
+
+        $class = '\\' . trim($class, '\\');
+        return substr($class, strrpos($class, '\\') + 1);
+    }
 }
