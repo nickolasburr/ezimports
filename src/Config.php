@@ -24,7 +24,7 @@ class Config
      */
     public static function getEzImportsVendorPath()
     {
-        return defined('EZIMPORTS_VENDOR_PATH') ? EZIMPORTS_VENDOR_PATH : dirname(self::getEzImportsModulePath());
+        return dirname(self::getEzImportsModulePath());
     }
 
     /**
@@ -62,7 +62,7 @@ class Config
     }
 
     /**
-     * Get absolute path to imports.json file
+     * Get absolute path to imports file
      * of the module utilizing ezimports.
      *
      * @param string $package
@@ -70,8 +70,8 @@ class Config
      */
     public static function getImportsFilePath($package)
     {
-        /** @var string $fileName The filename of the imports file, which defaults to imports.json. */
-        $fileName = defined('EZIMPORTS_FILENAME') ? EZIMPORTS_FILENAME : 'imports.json';
+        /** @var string $fileName The imports file basename, which defaults to imports.json. */
+        $fileName = defined('EZIMPORTS_FILE_BASENAME') ? EZIMPORTS_FILE_BASENAME : 'imports.json';
 
         /** @var string $filePath */
         $filePath = self::getModulePath($package) . DIRECTORY_SEPARATOR . $fileName;
