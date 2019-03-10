@@ -1,22 +1,17 @@
 {
   "imports": [
     {
-      "class": "Car\\Audi",
+      "class": "Example\\Name",
       "uses": [
         {
-          "use": "Car\\Tesla",
-          "as": "ElonMotors"
+          "use": "Dictionary\\WordInterface"
         },
         {
-          "use": "Truck\\Toyota\\Tacoma"
-        }
-      ]
-    },
-    {
-      "class": "Truck\\Toyota",
-      "uses": [
+          "use": "External\\Entity"
+        },
         {
-          "use": "SUV\\Jeep\\Wrangler"
+          "use": "Somewhere\\Outside\\ThisNamespace",
+          "as": "Outsider"
         }
       ]
     }
