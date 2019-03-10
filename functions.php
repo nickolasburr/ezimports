@@ -19,11 +19,11 @@ if (!function_exists('include_imports')) {
         /* Trim any leading/trailing backslashes from class. */
         $class = trim($class, '\\');
 
+        /** @var string $namespace */
+        $namespace = Config::getNamespaceFromFqcn($class);
+
         /** @var array $imports */
         $imports = Config::getClassImports($package, $class);
-
-        /** @var ReflectionClass $context */
-        $context = new \ReflectionClass($class);
 
         foreach ($imports as $import) {
             /** @var string $use */
@@ -32,12 +32,6 @@ if (!function_exists('include_imports')) {
             if ($use === null) {
                 throw new \Exception('No import path was specified.');
             }
-
-            /** @var ReflectionClass $entity */
-            $entity = new \ReflectionClass($use);
-
-            /** @var string $source The source class the alias references. */
-            $source = $entity->getName();
 
             /** @var string $alias */
             $alias = $import['as'] ?? null;
@@ -53,16 +47,14 @@ if (!function_exists('include_imports')) {
                  * it should only contain a short name without
                  * the preceding namespace.
                  */
-                $alias = '\\' . trim($alias, '\\');
-                $alias = substr($alias, strrpos($alias, '\\') + 1);
-                $alias = $context->getNamespaceName() . '\\' . $alias;
+                $alias = $namespace . '\\' . Config::getShortNameFromFqcn($alias);
             } else {
                 /** @var string $alias The alias (target) for the source class. */
-                $alias = $context->getNamespaceName() . '\\' . $entity->getShortName();
+                $alias = $namespace . '\\' . Config::getShortNameFromFqcn($use);
             }
 
             if (!class_exists($alias)) {
-                class_alias($source, $alias);
+                class_alias($use, $alias);
             }
         }
     }
