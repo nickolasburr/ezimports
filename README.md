@@ -2,11 +2,26 @@
 
 Register PHP imports at runtime.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+
 ## Installation
 
 ```
 composer require nickolasburr/ezimports
 ```
+
+## Configuration
+
+Prior to searching for the client module/project, ezimports will look
+for the following constants and, if found, will use them instead.
+
+`EZIMPORTS_MODULE_PATH`: The path to the ezimports module directory. Defaults to `vendor/nickolasburr/ezimports`.
+`<VENDOR>_<PACKAGE>_EZIMPORTS_FILE_BASENAME`: The basename of the imports file. Defaults to `imports.json`.
+`<VENDOR>_<PACKAGE>_EZIMPORTS_FILE_PATH`: The absolute path to the imports file. Defaults to `<EZIMPORTS_MODULE_PATH>/<<VENDOR>_<PACKAGE>_EZIMPORTS_FILE_BASENAME>`.
 
 ## Usage
 
