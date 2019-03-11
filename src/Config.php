@@ -4,7 +4,7 @@
  */
 namespace NickolasBurr\EzImports;
 
-class Config
+final class Config
 {
     /** @constant EZIMPORTS_FILE_BASENAME_AFFIX */
     const EZIMPORTS_FILE_BASENAME_AFFIX = '_EZIMPORTS_FILE_BASENAME';
