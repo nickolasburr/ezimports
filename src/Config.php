@@ -95,7 +95,8 @@ final class Config
 
         /** @var string $filePath */
         $filePath = defined($filePathConstKey)
-            ? constant($filePathConstKey) : self::getModulePath($package) . DIRECTORY_SEPARATOR . $fileName;
+            ? constant($filePathConstKey)
+            : self::getModulePath($package) . DIRECTORY_SEPARATOR . $fileName;
 
         return $filePath;
     }
