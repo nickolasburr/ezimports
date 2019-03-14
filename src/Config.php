@@ -6,11 +6,14 @@ namespace NickolasBurr\EzImports;
 
 final class Config
 {
-    /** @constant EZIMPORTS_FILE_BASENAME_AFFIX */
-    const EZIMPORTS_FILE_BASENAME_AFFIX = '_EZIMPORTS_FILE_BASENAME';
+    /** @constant DEFAULT_IMPORTS_FILE_NAME */
+    const DEFAULT_IMPORTS_FILE_NAME = 'imports.json';
 
-    /** @constant EZIMPORTS_FILE_PATH_AFFIX */
-    const EZIMPORTS_FILE_PATH_AFFIX = '_EZIMPORTS_FILE_PATH';
+    /** @constant IMPORTS_FILE_NAME_AFFIX */
+    const IMPORTS_FILE_NAME_AFFIX = '_IMPORTS_FILE_NAME';
+
+    /** @constant IMPORTS_FILE_PATH_AFFIX */
+    const IMPORTS_FILE_PATH_AFFIX = '_IMPORTS_FILE_PATH';
 
     /**
      * Get absolute path to ezimports module.
@@ -85,13 +88,15 @@ final class Config
             $prefix = strtoupper($prefix);
 
             /** @var string $fileNameConstKey */
-            $fileNameConstKey = $prefix . self::EZIMPORTS_FILE_BASENAME_AFFIX;
+            $fileNameConstKey = $prefix . self::IMPORTS_FILE_NAME_AFFIX;
 
             /** @var string $fileName The imports file basename, which defaults to imports.json. */
-            $fileName = defined($fileNameConstKey) ? constant($fileNameConstKey) : 'imports.json';
+            $fileName = defined($fileNameConstKey)
+                ? constant($fileNameConstKey)
+                : self::DEFAULT_IMPORTS_FILE_NAME;
 
             /** @var string $filePathConstKey */
-            $filePathConstKey = $prefix . self::EZIMPORTS_FILE_PATH_AFFIX;
+            $filePathConstKey = $prefix . self::IMPORTS_FILE_PATH_AFFIX;
 
             /** @var string $filePath */
             $filePath = defined($filePathConstKey)
