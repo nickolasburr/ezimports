@@ -15,6 +15,9 @@ final class Config
     /** @constant IMPORTS_FILE_PATH_AFFIX */
     const IMPORTS_FILE_PATH_AFFIX = '_IMPORTS_FILE_PATH';
 
+    /** @constant EZIMPORTS_MODULE_PATH_CONST_KEY */
+    const EZIMPORTS_MODULE_PATH_CONST_KEY = 'EZIMPORTS_MODULE_PATH';
+
     /**
      * Get absolute path to ezimports module.
      * EZIMPORTS_MODULE_PATH should only be
@@ -25,7 +28,9 @@ final class Config
      */
     public static function getEzImportsModulePath(): string
     {
-        return defined('EZIMPORTS_MODULE_PATH') ? EZIMPORTS_MODULE_PATH : dirname(__DIR__);
+        return defined(self::EZIMPORTS_MODULE_PATH_CONST_KEY)
+            ? constant(self::EZIMPORTS_MODULE_PATH_CONST_KEY)
+            : dirname(__DIR__);
     }
 
     /**
