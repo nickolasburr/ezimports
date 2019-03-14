@@ -19,8 +19,8 @@ composer require nickolasburr/ezimports
 Prior to searching, ezimports looks for the following constants:
 
 `EZIMPORTS_MODULE_PATH`: The path to the ezimports module directory. Defaults to `vendor/nickolasburr/ezimports`.
-`<VENDOR>_<MODULE>_EZIMPORTS_FILE_BASENAME`: Imports file basename. Defaults to `imports.json`.
-`<VENDOR>_<MODULE>_EZIMPORTS_FILE_PATH`: Imports file path. Defaults to `vendor/<VENDOR>/<MODULE>/imports.json`.
+`<VENDOR>_<MODULE>_IMPORTS_FILE_NAME`: Imports file basename. Defaults to `imports.json`.
+`<VENDOR>_<MODULE>_IMPORTS_FILE_PATH`: Imports file path. Defaults to `vendor/<VENDOR>/<MODULE>/imports.json`.
 
 ## Usage
 
@@ -78,7 +78,7 @@ Next, add the imports to `imports.json` in the module root directory:
 }
 ```
 
-Alternatively, specify the path via `<VENDOR>_<MODULE>_EZIMPORTS_FILE_PATH`.
+Alternatively, specify the path via `<VENDOR>_<MODULE>_IMPORTS_FILE_PATH`.
 The easiest way to achieve this is to add a bootstrap file to the module,
 which can be loaded first.
 
@@ -88,10 +88,10 @@ which can be loaded first.
  * bootstrap.php
  *
  * As an example, assume the module is
- * named 'nickolasburr/testimports'.
+ * named 'nickolasburr/testmodule'.
  */
 
-if (!defined('NICKOLASBURR_TESTIMPORTS_EZIMPORTS_FILE_PATH')) {
-  define('NICKOLASBURR_TESTIMPORTS_EZIMPORTS_FILE_PATH', '/path/to/module/imports.json');
+if (!defined('NICKOLASBURR_TESTMODULE_IMPORTS_FILE_PATH')) {
+  define('NICKOLASBURR_TESTMODULE_IMPORTS_FILE_PATH', '/path/to/module/imports.json');
 }
 ```
