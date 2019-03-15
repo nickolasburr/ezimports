@@ -60,9 +60,11 @@ final class Config
             return [];
         }
 
+        /** @var string $content */
         $content = file_get_contents($filePath);
-        $objects = json_decode($content, true);
-        $imports = $objects['imports'] ?? null;
+
+        /** @var array $imports */
+        $imports = json_decode($content, true);
 
         if ($imports === null) {
             return [];
