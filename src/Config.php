@@ -45,16 +45,16 @@ final class Config
     }
 
     /**
-     * Get array of imports for specific package class.
+     * Get array of imports for specific module class.
      *
      * @param string $class
-     * @param string $package
+     * @param string $module
      * @return array
      */
-    public static function getClassImports(string $class, string $package): array
+    public static function getClassImports(string $class, string $module): array
     {
         /** @var string $filePath */
-        $filePath = self::getImportsFilePath($package);
+        $filePath = self::getImportsFilePath($module);
 
         if (!file_exists($filePath)) {
             return [];
@@ -63,16 +63,14 @@ final class Config
         /** @var string $content */
         $content = file_get_contents($filePath);
 
-        /** @var array $imports */
-        $imports = json_decode($content, true);
+        /** @var array|null $entries */
+        $entries = json_decode($content, true) ?? null;
 
-        if ($imports === null) {
-            return [];
-        }
-
-        foreach ($imports as $import) {
-            if (isset($import['class']) && $class === $import['class']) {
-                return $import['uses'] ?? [];
+        if ($entries !== null) {
+            foreach ($entries as $entity) {
+                if (isset($entity['class']) && $class === $entity['class']) {
+                    return $entity['imports'] ?? [];
+                }
             }
         }
 
@@ -83,14 +81,14 @@ final class Config
      * Get absolute path to imports file
      * of the module utilizing ezimports.
      *
-     * @param string|null $package
+     * @param string|null $module
      * @return string
      */
-    public static function getImportsFilePath(?string $package = null): ?string
+    public static function getImportsFilePath(?string $module = null): ?string
     {
-        if ($package !== null) {
+        if ($module !== null) {
             /** @var string $prefix */
-            $prefix = str_replace('-', '', $package);
+            $prefix = str_replace('-', '', $module);
             $prefix = str_replace('/', '_', $prefix);
             $prefix = strtoupper($prefix);
 
@@ -108,7 +106,7 @@ final class Config
             /** @var string $filePath */
             $filePath = defined($filePathConstKey)
                 ? constant($filePathConstKey)
-                : self::getModulePath($package) . DIRECTORY_SEPARATOR . $fileName;
+                : self::getModulePath($module) . DIRECTORY_SEPARATOR . $fileName;
 
             return $filePath;
         }
@@ -119,14 +117,14 @@ final class Config
     /**
      * Get absolute path to the module utilizing ezimports.
      *
-     * @param string $package
+     * @param string $module
      * @return string
-     * @todo: If applicable, replace '/' in $package for
+     * @todo: If applicable, replace '/' in $module for
      *        Windows compatibility.
      */
-    public static function getModulePath(string $package)
+    public static function getModulePath(string $module): string
     {
-        return dirname(self::getEzImportsVendorPath()) . DIRECTORY_SEPARATOR . $package;
+        return dirname(self::getEzImportsVendorPath()) . DIRECTORY_SEPARATOR . $module;
     }
 
     /**
@@ -135,7 +133,7 @@ final class Config
      * @param string|null $class
      * @return string
      */
-    public static function getNamespaceFromFqcn(string $class = null)
+    public static function getNamespaceFromFqcn(string $class = null): string
     {
         if ($class === null) {
             throw new \Exception('Invalid class name was given.');
@@ -151,7 +149,7 @@ final class Config
      * @param string|null $class
      * @return string
      */
-    public static function getShortNameFromFqcn(string $class = null)
+    public static function getShortNameFromFqcn(string $class = null): string
     {
         if ($class === null) {
             throw new \Exception('Invalid class name was given.');

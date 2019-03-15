@@ -30,7 +30,7 @@ if (!function_exists('include_imports')) {
             $use = $import['use'] ?? null;
 
             if ($use === null) {
-                /** @todo: Output better exception message. */
+                /** @todo: Provide more informative exception message. */
                 throw new \Exception('No import path was specified.');
             }
 
