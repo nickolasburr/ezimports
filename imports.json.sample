@@ -1,19 +1,17 @@
-{
-  "imports": [
-    {
-      "class": "Example\\Name",
-      "uses": [
-        {
-          "use": "Dictionary\\WordInterface"
-        },
-        {
-          "use": "External\\Entity"
-        },
-        {
-          "use": "Somewhere\\Outside\\ThisNamespace",
-          "as": "Outsider"
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "class": "Example\\Name",
+    "imports": [
+      {
+        "use": "Dictionary\\WordInterface"
+      },
+      {
+        "use": "External\\Entity"
+      },
+      {
+        "use": "Somewhere\\Outside\\ThisNamespace",
+        "as": "Outsider"
+      }
+    ]
+  }
+]
