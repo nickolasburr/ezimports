@@ -57,25 +57,23 @@ class Name implements WordInterface
 Next, add the imports to `imports.json` in the module root directory:
 
 ```js
-{
-  "imports": [
-    {
-      "class": "Example\\Name",
-      "uses": [
-        {
-          "use": "Dictionary\\WordInterface"
-        },
-        {
-          "use": "External\\Entity"
-        },
-        {
-          "use": "Somewhere\\Outside\\ThisNamespace",
-          "as": "Outsider"
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "class": "Example\\Name",
+    "imports": [
+      {
+        "use": "Dictionary\\WordInterface"
+      },
+      {
+        "use": "External\\Entity"
+      },
+      {
+        "use": "Somewhere\\Outside\\ThisNamespace",
+        "as": "Outsider"
+      }
+    ]
+  }
+]
 ```
 
 Alternatively, specify the path via `<VENDOR>_<MODULE>_IMPORTS_FILE_PATH`.
