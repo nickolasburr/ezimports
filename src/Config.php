@@ -63,6 +63,13 @@ final class Config
         /** @var string $content */
         $content = file_get_contents($filePath);
 
+        if ($content === false) {
+            /** @var string $message */
+            $message = sprintf("Unable to read file %s\n", $filePath);
+
+            throw new \Exception($message);
+        }
+
         /** @var array|null $entries */
         $entries = json_decode($content, true) ?? null;
 
