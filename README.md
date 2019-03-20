@@ -7,6 +7,8 @@ Register PHP imports via JSON.
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+- [Benefits](#benefits)
+- [Caveats](#caveats)
 
 ## Installation
 
@@ -90,6 +92,20 @@ which can be loaded first.
  */
 
 if (!defined('NICKOLASBURR_TESTMODULE_IMPORTS_FILE_PATH')) {
-  define('NICKOLASBURR_TESTMODULE_IMPORTS_FILE_PATH', '/path/to/module/imports.json');
+    define('NICKOLASBURR_TESTMODULE_IMPORTS_FILE_PATH', '/path/to/module/imports.json');
 }
 ```
+
+## Benefits
+
+The ezimports mission statement is simple:
+
+- Reduce size of PHP source files
+- Provide an easier way to map dependencies
+
+## Caveats
+
+Just like anything else, there are tradeoffs, such as:
+
+- Less performant (no formal benchmarks currently)
+- Less secure (but not _insecure_ when managed properly)
