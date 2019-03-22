@@ -6,6 +6,7 @@ Register PHP imports via JSON.
 
 - [Installation](#installation)
 - [Configuration](#configuration)
+- [Constants](#constants)
 - [Usage](#usage)
 - [Benefits](#benefits)
 - [Caveats](#caveats)
@@ -18,11 +19,23 @@ composer require nickolasburr/ezimports
 
 ## Configuration
 
+The imports JSON file should contain an array of objects,
+each representing an entity and its subsequent imports.
+For each entity object, the following properties should
+be specified:
+
+- `class`: The FQCN of the class, interface, or trait.
+- `imports`: An array of import objects.
+  + `use`: The FQCN of the class, interface, or trait to import.
+  + `as`: [OPTIONAL] The alias to use in place of the short name. Defaults to short name.
+
+## Constants
+
 Prior to searching, ezimports looks for the following constants:
 
-`EZIMPORTS_MODULE_PATH`: The path to the ezimports module directory. Defaults to `vendor/nickolasburr/ezimports`.
-`<VENDOR>_<MODULE>_IMPORTS_FILE_NAME`: Imports file basename. Defaults to `imports.json`.
-`<VENDOR>_<MODULE>_IMPORTS_FILE_PATH`: Imports file path. Defaults to `vendor/<VENDOR>/<MODULE>/imports.json`.
+- `EZIMPORTS_MODULE_PATH`: The path to the ezimports module directory. Defaults to `vendor/nickolasburr/ezimports`.
+- `<VENDOR>_<MODULE>_IMPORTS_FILE_NAME`: Imports file basename. Defaults to `imports.json`.
+- `<VENDOR>_<MODULE>_IMPORTS_FILE_PATH`: Imports file path. Defaults to `vendor/<VENDOR>/<MODULE>/imports.json`.
 
 ## Usage
 
