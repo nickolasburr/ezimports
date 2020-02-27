@@ -19,10 +19,8 @@ composer require nickolasburr/ezimports
 
 ## Configuration
 
-The imports JSON file should contain an array of objects,
-each representing an entity and its subsequent imports.
-For each entity object, the following properties should
-be specified:
+The imports JSON file should contain an array of objects, each representing an entity and its subsequent imports.
+For each entity object, the following properties should be specified:
 
 - `class`: The FQCN of the class, interface, or trait.
 - `imports`: An array of import objects.
@@ -59,6 +57,8 @@ Invoke `include_imports` with FQCN and module name:
 
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace Example;
 
@@ -111,10 +111,8 @@ if (!defined('NICKOLASBURR_TESTMODULE_IMPORTS_FILE_PATH')) {
 
 ## Benefits
 
-The ezimports mission statement is simple:
-
-- Reduce size of PHP source files
-- Provide an easier way to map dependencies
+- Reduce SLOC of PHP source files
+- Map dependencies via JSON instead of parsing PHP files
 
 ## Caveats
 
@@ -122,3 +120,5 @@ Just like anything else, there are tradeoffs, such as:
 
 - Less performant (no formal benchmarks currently)
 - Less secure (but not _insecure_ when managed properly)
+
+In reality, it's probably better to just stick with static imports.
